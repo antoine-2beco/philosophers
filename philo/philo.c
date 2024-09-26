@@ -6,11 +6,17 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:43:33 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/09 13:50:04 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:22:14 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "philo.h"
+
 int	main(int argc, char *argv[])
 {
-	return (1);
+	if (!init(argc, argv))
+		return (1);
+
+	return (0);
 }
+

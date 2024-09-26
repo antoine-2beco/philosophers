@@ -6,29 +6,29 @@
 #    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 13:43:54 by ade-beco          #+#    #+#              #
-#    Updated: 2024/09/09 13:49:59 by ade-beco         ###   ########.fr        #
+#    Updated: 2024/09/26 11:33:55 by ade-beco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 PHILO		=		philo
 
 SRC_PATH	=		./src/
-SRCS 		=		philo.c
+SRCS 		=		philo.c init.c utils.c
 
 OBJECTS		=		$(SRCS:.c=.o)
 
+CC			=		cc
 INC			=		-I $(PHILO).h 
-CFLAGS		=		-Wall -Wextra -Werror
+CFLAGS		=		-Wall -Wextra -Werror -g
 
 all: 		$(OBJECTS) $(PHILO)
 
 %.o:		%.c
-					@cc $(CFLAGS) -c $< -o $(<:c=o)
+					@$(CC) $(CFLAGS) -c $(INC) $< -o $(<:c=o)
 
 $(PHILO):	$(OBJECTS)
 					@echo "Compiling and Creating Philo..."
-					@ar -rcs $(PHILO) $(OBJECTS)
-					@cc $(PHILO) $(CFLAGS)$(INC) -o $(PHILO)
+					@cc $(CFLAGS) $(INC) -o $(PHILO) $(OBJECTS)
 					@echo "OK !"
 
 clean:
