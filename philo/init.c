@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:05:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/03 17:01:50 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:04:16 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ static int	init_data(t_data *data, int i, char *argv[])
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
+	data->n_times_to_eat = 0;
 	if (i == 5)
 		data->n_times_to_eat = ft_atoi(argv[5]);
-	else
-		data->n_times_to_eat = 0;
 	data->philos = malloc((sizeof(t_philos) * data->n_philos));
 	if (!data->philos)
 		return (error(MALLOC_ERROR, -1, data));
