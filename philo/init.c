@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:05:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/03 12:20:42 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:42:41 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,48 @@ static int	check_args(int n_arg, char *argv[])
 
 static int	init_data(t_data *data, int argc, char *argv[])
 {
-	int	n_philos;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	n_times_to_eat;
-
-	n_philos = ft_atoi(argv[1]);
-	time_to_die = ft_atoi(argv[2]);
-	time_to_eat = ft_atoi(argv[3]);
-	time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 5)
-		n_times_to_eat = ft_atoi(argv[5]);
-	else
-		n_times_to_eat = 0;
-	pthread_mutex_init(&data->write_lock, NULL);
-	pthread_mutex_init(&data->sleep_lock, NULL);
-	pthread_mutex_init(&data->think_lock, NULL);
 	data->dead = 0;
-	(void)n_philos;
-	(void)time_to_die;
-	(void)time_to_eat;
-	(void)time_to_sleep;
-	(void)n_times_to_eat;
+	data->n_philos = ft_atoi(argv[1]);
+	data->time_to_die = ft_atoi(argv[2]);
+	data->time_to_eat = ft_atoi(argv[3]);
+	data->time_to_sleep = ft_atoi(argv[4]);
+	if (argc == 5)
+		data->n_times_to_eat = ft_atoi(argv[5]);
+	else
+		data->n_times_to_eat = 0;
+	data->philos = malloc((sizeof(t_philos) * data->n_philos));
+	if (!data->philos)
+		return (error(MALLOC_ERROR, -1, data));
+	data->forks = malloc((sizeof(pthread_mutex_t) * data->n_philos));
+	if (!data->forks)
+		return (error(MALLOC_ERROR, 1, data));
+	if (pthread_mutex_init(&data->write_lock, NULL))
+		return (error(MUTEX_ERROR, 2, data));
+	if (pthread_mutex_init(&data->sleep_lock, NULL))
+		return (error(MUTEX_ERROR, 3, data));
+	if (pthread_mutex_init(&data->think_lock, NULL))
+		return (error(MUTEX_ERROR, 4, data));
+	return (0);
+}
+
+static int	init_forks(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->n_philos)
+		if (pthread_mutex_init(&data->forks[i], NULL))
+			return (error(MUTEX_ERROR, (i + 5), data));
+	data->philos[0].l_fork = &data->forks[0];
+	data->philos[0].r_fork = &data->forks[data->n_philos - 1];
+	i = 1;
+	while (i < data->n_philos)
+	{
+		data->philos[i].l_fork = &data->forks[i];
+		data->philos[i].r_fork = &data->forks[i - 1];
+		
+		i++;
+	}
 	return (0);
 }
 
@@ -73,6 +92,8 @@ int	init(t_data *data, int argc, char *argv[])
 	if (check_args(argc - 1, argv))
 		return (1);
 	if (init_data(data, argc - 1, argv))
+		return (1);
+	if (init_forks(data))
 		return (1);
 	return (0);
 }
