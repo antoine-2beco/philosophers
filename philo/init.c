@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:05:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/03 16:42:41 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:01:50 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static int	check_args(int n_arg, char *argv[])
 	return (0);
 }
 
-static int	init_data(t_data *data, int argc, char *argv[])
+static int	init_data(t_data *data, int i, char *argv[])
 {
 	data->dead = 0;
 	data->n_philos = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 5)
+	if (i == 5)
 		data->n_times_to_eat = ft_atoi(argv[5]);
 	else
 		data->n_times_to_eat = 0;
@@ -63,25 +63,37 @@ static int	init_data(t_data *data, int argc, char *argv[])
 		return (error(MUTEX_ERROR, 3, data));
 	if (pthread_mutex_init(&data->think_lock, NULL))
 		return (error(MUTEX_ERROR, 4, data));
-	return (0);
-}
-
-static int	init_forks(t_data *data)
-{
-	int	i;
-
 	i = -1;
 	while (++i < data->n_philos)
 		if (pthread_mutex_init(&data->forks[i], NULL))
 			return (error(MUTEX_ERROR, (i + 5), data));
-	data->philos[0].l_fork = &data->forks[0];
-	data->philos[0].r_fork = &data->forks[data->n_philos - 1];
-	i = 1;
+	return (0);
+}
+
+static int	init_philos(t_data *data)
+{
+	int	i;
+
+	i = 0;
 	while (i < data->n_philos)
 	{
+		data->philos[i].id = i;
+		data->philos[i].start_time = 0;
+		data->philos[i].last_meal = 0;
+		data->philos[i].time_to_die = data->time_to_die;
+		data->philos[i].time_to_eat = data->time_to_eat;
+		data->philos[i].time_to_sleep = data->time_to_sleep;
+		data->philos[i].eating = 0;
+		data->philos[i].meals_eaten = 0;
+		data->philos[i].dead = &data->dead;
+		data->philos[i].write_lock = &data->write_lock;
+		data->philos[i].sleep_lock = &data->sleep_lock;
+		data->philos[i].think_lock = &data->think_lock;
 		data->philos[i].l_fork = &data->forks[i];
-		data->philos[i].r_fork = &data->forks[i - 1];
-		
+		if (i == 0)
+			data->philos[0].r_fork = &data->forks[data->n_philos - 1];
+		else
+			data->philos[i].r_fork = &data->forks[i - 1];
 		i++;
 	}
 	return (0);
@@ -93,7 +105,7 @@ int	init(t_data *data, int argc, char *argv[])
 		return (1);
 	if (init_data(data, argc - 1, argv))
 		return (1);
-	if (init_forks(data))
+	if (init_philos(data))
 		return (1);
 	return (0);
 }
