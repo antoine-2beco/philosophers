@@ -6,7 +6,7 @@
 #    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 13:43:54 by ade-beco          #+#    #+#              #
-#    Updated: 2024/09/26 11:33:55 by ade-beco         ###   ########.fr        #
+#    Updated: 2024/10/03 12:01:09 by ade-beco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJECTS		=		$(SRCS:.c=.o)
 
 CC			=		cc
 INC			=		-I $(PHILO).h 
-CFLAGS		=		-Wall -Wextra -Werror -g
+CFLAGS		=		-Wall -Wextra -Werror -g -fsanitize=address
 
 all: 		$(OBJECTS) $(PHILO)
 

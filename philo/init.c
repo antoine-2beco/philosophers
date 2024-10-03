@@ -6,13 +6,13 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:05:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/03 10:58:37 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:20:42 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	check_args(int n_arg, char *argv[])
+static int	check_args(int n_arg, char *argv[])
 {
 	int			i;
 	int			j;
@@ -40,9 +40,39 @@ int	check_args(int n_arg, char *argv[])
 	return (0);
 }
 
-int	init(int argc, char *argv[])
+static int	init_data(t_data *data, int argc, char *argv[])
 {
-	if (!check_args(argc - 1, argv))
+	int	n_philos;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	n_times_to_eat;
+
+	n_philos = ft_atoi(argv[1]);
+	time_to_die = ft_atoi(argv[2]);
+	time_to_eat = ft_atoi(argv[3]);
+	time_to_sleep = ft_atoi(argv[4]);
+	if (argc == 5)
+		n_times_to_eat = ft_atoi(argv[5]);
+	else
+		n_times_to_eat = 0;
+	pthread_mutex_init(&data->write_lock, NULL);
+	pthread_mutex_init(&data->sleep_lock, NULL);
+	pthread_mutex_init(&data->think_lock, NULL);
+	data->dead = 0;
+	(void)n_philos;
+	(void)time_to_die;
+	(void)time_to_eat;
+	(void)time_to_sleep;
+	(void)n_times_to_eat;
+	return (0);
+}
+
+int	init(t_data *data, int argc, char *argv[])
+{
+	if (check_args(argc - 1, argv))
+		return (1);
+	if (init_data(data, argc - 1, argv))
 		return (1);
 	return (0);
 }
