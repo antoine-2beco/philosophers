@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:59:45 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/07 15:21:47 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:29:39 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,32 @@ static int	check_deads_philos(t_data *data)
 	return (0);
 }
 
+static int	check_eaten_meals(t_data *data)
+{
+	int	i;
+	int	finished_eat;
+
+	i = -1;
+	finished_eat = 0;
+	if (data->n_times_to_eat == -1)
+		return (0);
+	while (++i < data->n_philos)
+	{
+		pthread_mutex_lock(&data->dead_lock);
+		if (data->philos[i].meals_eaten == data->n_times_to_eat)
+			finished_eat++;
+		pthread_mutex_unlock(&data->dead_lock);
+	}
+	if (finished_eat >= data->n_philos)
+	{
+		pthread_mutex_lock(&data->dead_lock);
+		data->dead = 1;
+		pthread_mutex_unlock(&data->dead_lock);
+		return (1);
+	}
+	return (0);
+}
+
 void	*monitor(void *pointer)
 {
 	t_data	*data;
@@ -63,8 +89,8 @@ void	*monitor(void *pointer)
 	data = (t_data *)pointer;
 	while (1)
 	{
-		if (check_deads_philos(data))
-			break;
+		if (check_deads_philos(data) || check_eaten_meals(data))
+			break ;
 	}
 	return (pointer);
 }
