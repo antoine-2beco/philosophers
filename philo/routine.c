@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:59:47 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/07 15:47:31 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:54:10 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ void	*routine(void *pointer)
 	philo = (t_philos *)pointer;
 	if (philo->id % 2 == 0)
 		ft_usleep(1, philo->data);
-	while (!dead_loop(philo))
+	while (!dead_philo(philo))
 	{
 		p_eat(philo);
 		p_sleep(philo);
 		p_think(philo);
 	}
-	return (pointer);
+	return ((void*)0);
 }
