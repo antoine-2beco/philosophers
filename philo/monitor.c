@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:59:45 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/07 13:30:01 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:21:47 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,39 @@ int	dead_loop(t_philos *philo)
 	return (0);
 }
 
+static int	check_deads_philos(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->n_philos)
+	{
+		pthread_mutex_lock(&data->eat_lock);
+		if ((get_current_time(data) - data->philos[i].last_meal) >= \
+				data->time_to_die && data->philos[i].eating == 0)
+		{
+			pthread_mutex_unlock(&data->eat_lock);
+			print_status("died", &data->philos[i]);
+			pthread_mutex_lock(&data->dead_lock);
+			*data->philos[i].dead = 1;
+			pthread_mutex_unlock(&data->dead_lock);
+			return (1);
+		}
+		else
+			pthread_mutex_unlock(&data->eat_lock);
+	}
+	return (0);
+}
+
 void	*monitor(void *pointer)
 {
 	t_data	*data;
 
 	data = (t_data *)pointer;
-	printf("Monitor started !\n");
-	(void) data;
+	while (1)
+	{
+		if (check_deads_philos(data))
+			break;
+	}
 	return (pointer);
 }

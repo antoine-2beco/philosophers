@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:44:06 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/07 13:28:05 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:09:25 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ typedef struct s_data
 
 	int					dead;
 	int					n_philos;
-	int					time_to_die;
-	int					time_to_eat;
-	int					time_to_sleep;
+	size_t				time_to_die;
+	size_t				time_to_eat;
+	size_t				time_to_sleep;
 	int					n_times_to_eat;
 
 	pthread_mutex_t		write_lock;
