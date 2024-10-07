@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 09:54:02 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/09/26 11:19:59 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:22:23 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,23 @@ long int	ft_atoi(const char *str)
 	if (str[i] || (i == 1 && (str[i - 1] == '+' || str[i - 1] == '-')))
 		return ((long int)INT32_MAX + 1);
 	return (res * n);
+}
+
+size_t	get_current_time(t_data *data)
+{
+	struct timeval	time;
+
+	if (gettimeofday(&time, NULL))
+		return (error("Error : Get time failed\n", 0, data));
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+int	ft_usleep(size_t ms, t_data *data)
+{
+	size_t	start;
+
+	start = get_current_time(data);
+	while ((get_current_time(data) - start) < ms)
+		usleep(500);
+	return (0);
 }

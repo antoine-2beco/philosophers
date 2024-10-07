@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:44:06 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/03 16:22:10 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:28:05 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@
 # include <unistd.h>
 # include <limits.h>
 # include <pthread.h>
+# include <sys/time.h>
 
 //			VARS
 # define MALLOC_ERROR "Error : Allocation Failed\n"
 # define MUTEX_ERROR "Error : Mutex Init Failed\n"
 
 //			structs
+struct	s_data;
+
 typedef struct s_philos
 {
 	pthread_t			threads;
@@ -42,14 +45,17 @@ typedef struct s_philos
 	pthread_mutex_t		*l_fork;
 	pthread_mutex_t		*r_fork;
 	pthread_mutex_t		*write_lock;
-	pthread_mutex_t		*sleep_lock;
-	pthread_mutex_t		*think_lock;
+	pthread_mutex_t		*eat_lock;
+	pthread_mutex_t		*dead_lock;
+
+	struct s_data		*data;
 }						t_philos;
 
 typedef struct s_data
 {
 	t_philos			*philos;
 	pthread_mutex_t		*forks;
+	pthread_t			monitor;
 
 	int					dead;
 	int					n_philos;
@@ -59,19 +65,32 @@ typedef struct s_data
 	int					n_times_to_eat;
 
 	pthread_mutex_t		write_lock;
-	pthread_mutex_t		sleep_lock;
-	pthread_mutex_t		think_lock;
+	pthread_mutex_t		eat_lock;
+	pthread_mutex_t		dead_lock;
 }						t_data;
 
 //			main.c
-int			error(char *error_mess, int mode, t_data *data);
+int			error(char *error_mess, long int mode, t_data *data);;
 int			main(int argc, char *argv[]);
 
 //			init.c
-int			init(t_data *data, int argc, char *argv[]);
+int			check_args(int n_arg, char *argv[]);
+int			init_data(t_data *data, int i, char *argv[]);
+int			init_philos(t_data *data);
+int			init_threads(t_data *data);
+
+// monitor.c
+void		print_status(char *str, t_philos *philo);
+int			dead_loop(t_philos *philo);
+void		*monitor(void *pointer);
+
+// philo_routine.c
+void		*routine(void *pointer);
 
 //			utils.c
 int			ft_isdigit(int c);
 long int	ft_atoi(const char *str);
+size_t		get_current_time(t_data *data);
+int			ft_usleep(size_t ms, t_data *data);
 
 #endif

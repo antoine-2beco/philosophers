@@ -6,14 +6,14 @@
 #    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 13:43:54 by ade-beco          #+#    #+#              #
-#    Updated: 2024/10/03 12:01:09 by ade-beco         ###   ########.fr        #
+#    Updated: 2024/10/07 12:12:09 by ade-beco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 PHILO		=		philo
 
 SRC_PATH	=		./src/
-SRCS 		=		philo.c init.c utils.c
+SRCS 		=		philo.c init.c utils.c monitor.c routine.c
 
 OBJECTS		=		$(SRCS:.c=.o)
 

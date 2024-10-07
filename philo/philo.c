@@ -6,15 +6,15 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:43:33 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/03 16:41:00 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:16:43 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	free_data(t_data *data, int mode)
+static int	free_data(t_data *data, long int mode)
 {
-	int	i;
+	long int	i;
 
 	i = -1;
 	if (mode >= 0)
@@ -24,16 +24,15 @@ int	free_data(t_data *data, int mode)
 	if (mode > 2 || mode == 0)
 		pthread_mutex_destroy(&data->write_lock);
 	if (mode > 3 || mode == 0)
-		pthread_mutex_destroy(&data->sleep_lock);
+		pthread_mutex_destroy(&data->eat_lock);
 	if (mode > 4 || mode == 0)
-		pthread_mutex_destroy(&data->think_lock);
+		pthread_mutex_destroy(&data->dead_lock);
 	while (++i < data->n_philos && (mode > (i + 5) || mode == 0))
 		pthread_mutex_destroy(&data->forks[i]);
 	return (0);
 }
 
-// to free philos forks (mutex?)
-int	error(char *error_mess, int mode, t_data *data)
+int	error(char *error_mess, long int mode, t_data *data)
 {
 	printf("%s\n", error_mess);
 	free_data(data, mode);
@@ -44,7 +43,13 @@ int	main(int argc, char *argv[])
 {
 	t_data	data;
 
-	if (init(&data, argc, argv))
+	if (check_args(argc - 1, argv))
+		return (1);
+	if (init_data(&data, argc - 1, argv))
+		return (1);
+	if (init_philos(&data))
+		return (1);
+	if (init_threads((&data)))
 		return (1);
 	free_data(&data, 0);
 	return (0);
