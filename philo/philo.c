@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:43:33 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/07 13:16:43 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:08:36 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char *argv[])
 		return (1);
 	if (init_philos(&data))
 		return (1);
-	if (init_threads((&data)))
+	if (init_threads(&data))
 		return (1);
 	free_data(&data, 0);
 	return (0);

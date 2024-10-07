@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:59:45 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/07 15:29:39 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:15:26 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ static int	check_eaten_meals(t_data *data)
 	while (++i < data->n_philos)
 	{
 		pthread_mutex_lock(&data->dead_lock);
-		if (data->philos[i].meals_eaten == data->n_times_to_eat)
+		if (data->philos[i].meals_eaten >= data->n_times_to_eat)
 			finished_eat++;
 		pthread_mutex_unlock(&data->dead_lock);
 	}
-	if (finished_eat >= data->n_philos)
+	if (finished_eat == data->n_philos)
 	{
 		pthread_mutex_lock(&data->dead_lock);
 		data->dead = 1;
