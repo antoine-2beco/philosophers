@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 09:54:02 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/07 16:05:50 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:41:07 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ int	ft_usleep(size_t ms, t_data *data)
 
 	start = get_current_time(data);
 	while ((get_current_time(data) - start) < ms)
-		usleep(500);
+		usleep(ms / 10);
 	return (0);
 }

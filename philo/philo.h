@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:44:06 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/07 14:09:25 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/08 19:04:21 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int			init_threads(t_data *data);
 
 // monitor.c
 void		print_status(char *str, t_philos *philo);
-int			dead_loop(t_philos *philo);
 void		*monitor(void *pointer);
 
 // philo_routine.c
