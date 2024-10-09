@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:05:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/09 12:14:03 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:55:06 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,15 @@ int	check_args(int n_arg, char *argv[])
 	{
 		j = -1;
 		while (argv[i][++j])
-		{
 			if (!ft_isdigit(argv[i][j]))
 				return (printf("Error : Bad arguments (only digits)\n"), 1);
-		}
 		k = ft_atoi(argv[i]);
 		if (k > INT32_MAX || k < INT32_MIN)
 			return (printf("Error : Argument exceed limits\n"), 1);
+		if (i == 1 && k == 0)
+			return (printf("Error : No philosophers\n"), 1);
+		if (i == 5 && k == 0)
+			return (printf("Error : Argument five must be at least 1\n"), 1);
 	}
 	return (0);
 }
