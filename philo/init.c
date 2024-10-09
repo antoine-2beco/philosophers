@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:05:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/08 19:25:35 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/09 12:14:03 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	init_philos(t_data *data)
 	{
 		data->philos[i].id = i;
 		data->philos[i].start_time = get_current_time(data);
+		data->philos[i].last_meal = get_current_time(data);
 		data->philos[i].time_to_die = data->time_to_die;
 		data->philos[i].time_to_eat = data->time_to_eat;
 		data->philos[i].time_to_sleep = data->time_to_sleep;

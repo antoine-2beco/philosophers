@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:59:45 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/08 19:20:59 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:24:55 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ void	print_status(char *str, t_philos *philo)
 	pthread_mutex_unlock(philo->write_lock);
 }
 
+static int	check_dead_philo(t_philos *philo)
+{
+	pthread_mutex_lock(philo->eat_lock);
+	if ((get_current_time(philo->data) - philo->last_meal) >= \
+			philo->time_to_die && philo->eating == 0)
+		return (pthread_mutex_unlock(philo->eat_lock), 1);
+	pthread_mutex_unlock(philo->eat_lock);
+	return (0);
+}
+
 static int	check_deads_philos(t_data *data)
 {
 	int	i;
@@ -30,19 +40,14 @@ static int	check_deads_philos(t_data *data)
 	i = -1;
 	while (++i < data->n_philos)
 	{
-		pthread_mutex_lock(&data->eat_lock);
-		if (get_current_time(data) >= data->philos[i].time_to_die \
-				&& data->philos[i].eating == 0)
+		if (check_dead_philo(&data->philos[i]))
 		{
-			pthread_mutex_unlock(&data->eat_lock);
 			print_status("died", &data->philos[i]);
 			pthread_mutex_lock(&data->dead_lock);
 			*data->philos[i].dead = 1;
 			pthread_mutex_unlock(&data->dead_lock);
 			return (1);
 		}
-		else
-			pthread_mutex_unlock(&data->eat_lock);
 	}
 	return (0);
 }

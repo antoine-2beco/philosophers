@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:59:47 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/08 19:19:05 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:27:29 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ static void	eat_sleep_think(t_philos *philo)
 	philo->eating = 1;
 	print_status("is eating", philo);
 	pthread_mutex_lock(philo->eat_lock);
-	philo->time_to_die = philo->data->time_to_die + \
-			get_current_time(philo->data);
+	philo->last_meal = get_current_time(philo->data);
+	//philo->time_to_die = philo->data->time_to_die + \
+	//		get_current_time(philo->data);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->eat_lock);
 	ft_usleep(philo->time_to_eat, philo->data);
@@ -45,8 +46,6 @@ void	*routine(void *pointer)
 	t_philos	*philo;
 
 	philo = (t_philos *)pointer;
-	philo->time_to_die = philo->data->time_to_die + \
-			get_current_time(philo->data);
 	if (philo->id % 2 == 0)
 		ft_usleep(1, philo->data);
 	while (!*philo->dead)
