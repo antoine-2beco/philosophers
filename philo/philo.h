@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:44:06 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/08 19:04:21 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:13:36 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@
 # include <limits.h>
 # include <pthread.h>
 # include <sys/time.h>
-
-//			VARS
-# define MALLOC_ERROR "Error : Allocation Failed\n"
-# define MUTEX_ERROR "Error : Mutex Init Failed\n"
 
 //			structs
 struct	s_data;

@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:05:59 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/09 13:55:06 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:13:30 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,20 @@ int	init_data(t_data *data, int i, char *argv[])
 		data->n_times_to_eat = ft_atoi(argv[5]);
 	data->philos = malloc((sizeof(t_philos) * data->n_philos));
 	if (!data->philos)
-		return (error(MALLOC_ERROR, -1, data));
+		return (error("Error : Allocation Failed\n", -1, data));
 	data->forks = malloc((sizeof(pthread_mutex_t) * data->n_philos));
 	if (!data->forks)
-		return (error(MALLOC_ERROR, 1, data));
+		return (error("Error : Allocation Failed\n", 1, data));
 	if (pthread_mutex_init(&data->write_lock, NULL))
-		return (error(MUTEX_ERROR, 2, data));
+		return (error("Error : Mutex Init Failed\n", 2, data));
 	if (pthread_mutex_init(&data->eat_lock, NULL))
-		return (error(MUTEX_ERROR, 3, data));
+		return (error("Error : Mutex Init Failed\n", 3, data));
 	if (pthread_mutex_init(&data->dead_lock, NULL))
-		return (error(MUTEX_ERROR, 4, data));
+		return (error("Error : Mutex Init Failed\n", 4, data));
 	i = -1;
 	while (++i < data->n_philos)
 		if (pthread_mutex_init(&data->forks[i], NULL))
-			return (error(MUTEX_ERROR, (i + 5), data));
+			return (error("Error : Mutex Init Failed\n", (i + 5), data));
 	return (0);
 }
 

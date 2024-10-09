@@ -6,7 +6,7 @@
 #    By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 13:43:54 by ade-beco          #+#    #+#              #
-#    Updated: 2024/10/08 18:44:56 by ade-beco         ###   ########.fr        #
+#    Updated: 2024/10/09 15:38:01 by ade-beco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ SRCS 		=		philo.c init.c utils.c monitor.c routine.c
 
 OBJECTS		=		$(SRCS:.c=.o)
 
-CC			=		cc
+CC			=		gcc
 INC			=		-I $(PHILO).h 
-CFLAGS		=		-Wall -Wextra -Werror -fsanitize=address
+CFLAGS		=		-Wall -Wextra -Werror
 
 all: 		$(OBJECTS) $(PHILO)
 
@@ -28,7 +28,7 @@ all: 		$(OBJECTS) $(PHILO)
 
 $(PHILO):	$(OBJECTS)
 					@echo "Compiling and Creating Philo..."
-					@cc $(CFLAGS) $(INC) -o $(PHILO) $(OBJECTS)
+					@$(CC) $(CFLAGS) $(INC) -o $(PHILO) $(OBJECTS)
 					@echo "OK !"
 
 clean:
