@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:59:45 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/09 13:24:55 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/14 11:34:46 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_status(char *str, t_philos *philo)
 	pthread_mutex_lock(philo->write_lock);
 	time = get_current_time(philo->data) - philo->start_time;
 	if (!*philo->dead)
-		printf("%zu %i %s\n", time, philo->id, str);
+		printf("%zu %i %s\n", time, (philo->id + 1), str);
 	pthread_mutex_unlock(philo->write_lock);
 }
 
