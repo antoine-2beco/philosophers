@@ -6,7 +6,7 @@
 /*   By: ade-beco <ade-beco@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:44:06 by ade-beco          #+#    #+#             */
-/*   Updated: 2024/10/09 15:13:36 by ade-beco         ###   ########.fr       */
+/*   Updated: 2024/10/14 11:27:55 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ int			init_data(t_data *data, int i, char *argv[]);
 int			init_philos(t_data *data);
 int			init_threads(t_data *data);
 
-// monitor.c
+//			monitor.c
 void		print_status(char *str, t_philos *philo);
 void		*monitor(void *pointer);
 
-// philo_routine.c
+//			philo_routine.c
 void		*routine(void *pointer);
 
 //			utils.c
